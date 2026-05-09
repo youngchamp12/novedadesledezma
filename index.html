@@ -86,9 +86,9 @@
   @media (max-width: 768px) { .products-grid { grid-template-columns: 1fr; } }
   .product-card { background: var(--dark-soft); border-radius: 32px; overflow: hidden; position: relative; transition: all 0.4s; border: 1px solid rgba(255,255,255,0.05); }
   .product-card:hover { transform: translateY(-10px); box-shadow: 0 40px 80px rgba(0,0,0,0.5); }
-  .product-img-wrapper { height: 440px; overflow: hidden; }
-  .product-img { width: 100%; height: 100%; background-size: cover; background-position: center; transition: transform 1s; }
-  .product-card:hover .product-img { transform: scale(1.1); }
+  .product-img-wrapper { aspect-ratio: 3/4; overflow: hidden; background: #130527; display: flex; align-items: center; justify-content: center; }
+  .product-img { width: 100%; height: 100%; object-fit: contain; transition: transform 1s; }
+  .product-card:hover .product-img { transform: scale(1.05); }
   .product-info { padding: 2rem; }
   .product-name { font-size: 1.6rem; font-weight: 800; margin-bottom: 0.5rem; }
   .product-price { color: var(--gray); font-weight: 600; }
@@ -201,7 +201,6 @@
 
     /* Productos */
     .products-grid { grid-template-columns: 1fr; gap: 1.5rem; }
-    .product-img-wrapper { height: 320px; }
     .product-btn-float { transform: scale(1); }
 
     /* Testimonios */
@@ -221,22 +220,55 @@
     .map-wrapper { height: 320px; border-radius: 24px; }
   }
 
+  /* ── GALERÍA COMPLETA ── */
+  #galeria { background: #f5f3f7; padding: 8rem 7% 6rem; }
+  .gallery-header { text-align: center; margin-bottom: 3rem; }
+  .gallery-filters { display: flex; justify-content: center; gap: 0.8rem; flex-wrap: wrap; margin-bottom: 3rem; }
+  .gallery-filter-btn { background: #fff; border: 2px solid #eee; padding: 0.6rem 1.6rem; border-radius: 100px; font-weight: 700; font-size: 0.85rem; cursor: pointer; transition: all 0.3s; font-family: var(--body); color: var(--dark); }
+  .gallery-filter-btn.active, .gallery-filter-btn:hover { background: var(--grad-purple); color: #fff; border-color: transparent; }
+
+  .gallery-masonry { columns: 4; column-gap: 1.2rem; }
+  .gallery-item { break-inside: avoid; margin-bottom: 1.2rem; border-radius: 20px; overflow: hidden; position: relative; cursor: pointer; }
+  .gallery-item img { width: 100%; display: block; transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
+  .gallery-item:hover img { transform: scale(1.08); }
+  .gallery-item-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(13,2,33,0.7) 0%, transparent 50%); opacity: 0; transition: opacity 0.4s; display: flex; align-items: flex-end; padding: 1.5rem; }
+  .gallery-item:hover .gallery-item-overlay { opacity: 1; }
+  .gallery-item-label { color: #fff; font-weight: 800; font-size: 0.95rem; }
+  .gallery-item-cat { color: var(--secondary); font-size: 0.7rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; display: block; margin-bottom: 4px; }
+
+  /* Lightbox */
+  .lightbox { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.92); z-index: 9999; align-items: center; justify-content: center; backdrop-filter: blur(10px); }
+  .lightbox.active { display: flex; }
+  .lightbox img { max-width: 90vw; max-height: 85vh; border-radius: 20px; box-shadow: 0 40px 80px rgba(0,0,0,0.5); object-fit: contain; }
+  .lightbox-close { position: absolute; top: 2rem; right: 2rem; background: rgba(255,255,255,0.15); border: none; color: #fff; width: 50px; height: 50px; border-radius: 50%; font-size: 1.5rem; cursor: pointer; backdrop-filter: blur(10px); transition: 0.3s; }
+  .lightbox-close:hover { background: rgba(255,255,255,0.3); }
+  .lightbox-nav { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.15); border: none; color: #fff; width: 55px; height: 55px; border-radius: 50%; font-size: 1.3rem; cursor: pointer; backdrop-filter: blur(10px); transition: 0.3s; }
+  .lightbox-nav:hover { background: rgba(255,255,255,0.3); }
+  .lightbox-prev { left: 2rem; }
+  .lightbox-next { right: 2rem; }
+
+  @media (max-width: 1100px) { .gallery-masonry { columns: 3; } }
+  @media (max-width: 768px) { .gallery-masonry { columns: 2; column-gap: 0.8rem; } .gallery-item { margin-bottom: 0.8rem; border-radius: 14px; } }
+
   /* ── SMALL MOBILE ── */
   @media (max-width: 400px) {
     nav { padding: 0 5%; }
     .hero-title { font-size: 2.4rem; }
-    .product-img-wrapper { height: 260px; }
     .form-card { padding: 1.5rem 1.2rem; }
+    .gallery-masonry { columns: 2; }
   }
 </style>
 </head>
 <body>
 
 <nav id="mainNav">
-  <a class="nav-logo" href="#hero">LEZAMA<span>.</span></a>
+  <a class="nav-logo" href="#hero" style="display: flex; align-items: center;">
+    <img src="logo disfracez lezama.png" alt="Disfraces Lezama" style="height: 50px; object-fit: contain;">
+  </a>
   <ul class="nav-links" id="navLinks">
     <li><a href="#servicios">Servicios</a></li>
     <li><a href="#productos">Catálogo</a></li>
+    <li><a href="#galeria">Galería</a></li>
     <li><a href="#testimonios">Reseñas</a></li>
     <li><a href="#ubicacion">Ubicación</a></li>
   </ul>
@@ -250,6 +282,7 @@
   <img src="disfracesdesuperheroes.png" alt="Disfraces de superhéroes" class="hero-video">
   <div class="hero-overlay"></div>
   <div class="hero-content">
+    <img src="logo disfracez lezama.png" alt="Disfraces Lezama Logo" style="max-width: 250px; margin-bottom: 2rem; filter: drop-shadow(0 10px 20px rgba(0,0,0,0.5));">
     <p class="hero-label">Veracruz · Mercado Hidalgo</p>
     <h1 class="hero-title">Magia.<br>Tradición.</h1>
     <p class="hero-sub-alt">Desde 1988, confeccionamos piezas extraordinarias que dan vida a tus personajes favoritos.</p>
@@ -264,7 +297,7 @@
   <div class="info-item"><span class="info-icon">📍</span><div class="info-text"><strong>Mercado Hidalgo</strong><span>Miguel Hidalgo 1088, Veracruz</span></div></div>
   <div class="info-item"><span class="info-icon">🕐</span><div class="info-text"><strong>Horarios</strong><span>Lun – Sáb: 9am – 8pm</span></div></div>
   <div class="info-item"><span class="info-icon">📞</span><div class="info-text"><strong>229 780 6893</strong><span>WhatsApp disponible</span></div></div>
-  <div class="info-item"><span class="info-icon">✂️</span><div class="info-text"><strong>Hechura a medida</strong><span>Diseños exclusivos</span></div></div>
+  <div class="info-item"><span class="info-icon">🎭</span><div class="info-text"><strong>Llegas, eliges y te disfrazas</strong><span></span></div></div>
 </div>
 
 <section id="servicios">
@@ -311,43 +344,193 @@
   </div>
   <div class="products-grid">
     <div class="product-card" onclick="document.getElementById('cotizar').scrollIntoView({behavior:'smooth'})">
-      <div class="product-img-wrapper"><div class="product-img" style="background-image: url('regional_col.jpg')"></div></div>
+      <div class="product-img-wrapper"><img class="product-img" src="regional_col.jpg" alt="Regional Tricolor" loading="lazy"></div>
       <span class="product-tag">Regional</span>
       <div class="product-info"><h3 class="product-name">Regional Tricolor</h3></div>
       <button class="product-btn-float">↗</button>
     </div>
     <div class="product-card" onclick="document.getElementById('cotizar').scrollIntoView({behavior:'smooth'})">
-      <div class="product-img-wrapper"><div class="product-img" style="background-image: url('gala_boy.jpg')"></div></div>
+      <div class="product-img-wrapper"><img class="product-img" src="gala_boy.jpg" alt="Traje de Gala Infantil" loading="lazy"></div>
       <span class="product-tag">Gala</span>
       <div class="product-info"><h3 class="product-name">Traje de Gala Infantil</h3></div>
       <button class="product-btn-float">↗</button>
     </div>
     <div class="product-card" onclick="document.getElementById('cotizar').scrollIntoView({behavior:'smooth'})">
-      <div class="product-img-wrapper"><div class="product-img" style="background-image: url('caperucita.jpg')"></div></div>
+      <div class="product-img-wrapper"><img class="product-img" src="caperucita.jpg" alt="Caperucita Roja" loading="lazy"></div>
       <span class="product-tag">Cuentos</span>
       <div class="product-info"><h3 class="product-name">Caperucita Roja</h3></div>
       <button class="product-btn-float">↗</button>
     </div>
     <div class="product-card" onclick="document.getElementById('cotizar').scrollIntoView({behavior:'smooth'})">
-      <div class="product-img-wrapper"><div class="product-img" style="background-image: url('adelita.jpg')"></div></div>
+      <div class="product-img-wrapper"><img class="product-img" src="adelita.jpg" alt="Adelita Floreada" loading="lazy"></div>
       <span class="product-tag">Regional</span>
       <div class="product-info"><h3 class="product-name">Adelita Floreada</h3></div>
       <button class="product-btn-float">↗</button>
     </div>
     <div class="product-card" onclick="document.getElementById('cotizar').scrollIntoView({behavior:'smooth'})">
-      <div class="product-img-wrapper"><div class="product-img" style="background-image: url('faraon.jpg')"></div></div>
+      <div class="product-img-wrapper"><img class="product-img" src="faraon.jpg" alt="Faraón Egipcio" loading="lazy"></div>
       <span class="product-tag">Historia</span>
       <div class="product-info"><h3 class="product-name">Faraón Egipcio</h3></div>
       <button class="product-btn-float">↗</button>
     </div>
     <div class="product-card" onclick="document.getElementById('cotizar').scrollIntoView({behavior:'smooth'})">
-      <div class="product-img-wrapper"><div class="product-img" style="background-image: url('abejita.jpg')"></div></div>
+      <div class="product-img-wrapper"><img class="product-img" src="abejita.jpg" alt="Abejita Glitter" loading="lazy"></div>
       <span class="product-tag">Primavera</span>
       <div class="product-info"><h3 class="product-name">Abejita Glitter</h3></div>
       <button class="product-btn-float">↗</button>
     </div>
   </div>
 </section>
+
+<section id="galeria">
+  <div class="gallery-header">
+    <p class="section-label">Nuestra colección</p>
+    <h2 class="section-title">Galería de disfraces</h2>
+  </div>
+  <div class="gallery-filters">
+    <button class="gallery-filter-btn active" data-filter="all">Todos</button>
+    <button class="gallery-filter-btn" data-filter="regional">Regional</button>
+    <button class="gallery-filter-btn" data-filter="superheroes">Superhéroes</button>
+    <button class="gallery-filter-btn" data-filter="fantasia">Fantasía</button>
+    <button class="gallery-filter-btn" data-filter="vaquero">Vaquero</button>
+    <button class="gallery-filter-btn" data-filter="retro">Retro</button>
+    <button class="gallery-filter-btn" data-filter="accesorios">Accesorios</button>
+  </div>
+  <div class="gallery-masonry" id="galleryMasonry">
+    <div class="gallery-item" data-cat="superheroes" onclick="openLightbox(this)">
+      <img src="WhatsApp Image 2026-05-08 at 15.32.31 (1).jpeg" alt="Chapulín Colorado" loading="lazy">
+      <div class="gallery-item-overlay"><div><span class="gallery-item-cat">Superhéroes</span><span class="gallery-item-label">Chapulín Colorado</span></div></div>
+    </div>
+    <div class="gallery-item" data-cat="fantasia" onclick="openLightbox(this)">
+      <img src="WhatsApp Image 2026-05-08 at 15.32.31 (2).jpeg" alt="Vestido Vaquera Rosa" loading="lazy">
+      <div class="gallery-item-overlay"><div><span class="gallery-item-cat">Fantasía</span><span class="gallery-item-label">Vestido Vaquera Rosa</span></div></div>
+    </div>
+    <div class="gallery-item" data-cat="regional" onclick="openLightbox(this)">
+      <img src="WhatsApp Image 2026-05-08 at 15.32.31.jpeg" alt="Traje Egipcio Niña" loading="lazy">
+      <div class="gallery-item-overlay"><div><span class="gallery-item-cat">Regional</span><span class="gallery-item-label">Traje Egipcio</span></div></div>
+    </div>
+    <div class="gallery-item" data-cat="superheroes" onclick="openLightbox(this)">
+      <img src="WhatsApp Image 2026-05-08 at 15.32.32 (1).jpeg" alt="Superman Infantil" loading="lazy">
+      <div class="gallery-item-overlay"><div><span class="gallery-item-cat">Superhéroes</span><span class="gallery-item-label">Superman</span></div></div>
+    </div>
+    <div class="gallery-item" data-cat="regional" onclick="openLightbox(this)">
+      <img src="WhatsApp Image 2026-05-08 at 15.32.32 (2).jpeg" alt="Jarocha Veracruzana" loading="lazy">
+      <div class="gallery-item-overlay"><div><span class="gallery-item-cat">Regional</span><span class="gallery-item-label">Jarocha Veracruzana</span></div></div>
+    </div>
+    <div class="gallery-item" data-cat="vaquero" onclick="openLightbox(this)">
+      <img src="WhatsApp Image 2026-05-08 at 15.32.32 (3).jpeg" alt="Woody Toy Story" loading="lazy">
+      <div class="gallery-item-overlay"><div><span class="gallery-item-cat">Vaquero</span><span class="gallery-item-label">Woody</span></div></div>
+    </div>
+    <div class="gallery-item" data-cat="fantasia" onclick="openLightbox(this)">
+      <img src="WhatsApp Image 2026-05-08 at 15.32.32.jpeg" alt="Traje Militar Lentejuela" loading="lazy">
+      <div class="gallery-item-overlay"><div><span class="gallery-item-cat">Fantasía</span><span class="gallery-item-label">Militar Lentejuela</span></div></div>
+    </div>
+    <div class="gallery-item" data-cat="superheroes" onclick="openLightbox(this)">
+      <img src="WhatsApp Image 2026-05-08 at 15.32.33 (1).jpeg" alt="Wonder Woman" loading="lazy">
+      <div class="gallery-item-overlay"><div><span class="gallery-item-cat">Superhéroes</span><span class="gallery-item-label">Wonder Woman</span></div></div>
+    </div>
+    <div class="gallery-item" data-cat="regional" onclick="openLightbox(this)">
+      <img src="WhatsApp Image 2026-05-08 at 15.32.33 (2).jpeg" alt="Adelita Amarilla" loading="lazy">
+      <div class="gallery-item-overlay"><div><span class="gallery-item-cat">Regional</span><span class="gallery-item-label">Adelita Amarilla</span></div></div>
+    </div>
+    <div class="gallery-item" data-cat="fantasia" onclick="openLightbox(this)">
+      <img src="WhatsApp Image 2026-05-08 at 15.32.33 (3).jpeg" alt="Princesa Rosa" loading="lazy">
+      <div class="gallery-item-overlay"><div><span class="gallery-item-cat">Fantasía</span><span class="gallery-item-label">Princesa Rosa</span></div></div>
+    </div>
+    <div class="gallery-item" data-cat="regional" onclick="openLightbox(this)">
+      <img src="WhatsApp Image 2026-05-08 at 15.32.33 (4).jpeg" alt="Faraón Infantil" loading="lazy">
+      <div class="gallery-item-overlay"><div><span class="gallery-item-cat">Regional</span><span class="gallery-item-label">Faraón Egipcio</span></div></div>
+    </div>
+    <div class="gallery-item" data-cat="regional" onclick="openLightbox(this)">
+      <img src="WhatsApp Image 2026-05-08 at 15.32.33 (5).jpeg" alt="Adelita Rosa" loading="lazy">
+      <div class="gallery-item-overlay"><div><span class="gallery-item-cat">Regional</span><span class="gallery-item-label">Adelita Rosa</span></div></div>
+    </div>
+    <div class="gallery-item" data-cat="retro" onclick="openLightbox(this)">
+      <img src="WhatsApp Image 2026-05-08 at 15.32.33.jpeg" alt="Rockero Infantil" loading="lazy">
+      <div class="gallery-item-overlay"><div><span class="gallery-item-cat">Retro</span><span class="gallery-item-label">Rockero</span></div></div>
+    </div>
+    <div class="gallery-item" data-cat="superheroes" onclick="openLightbox(this)">
+      <img src="WhatsApp Image 2026-05-08 at 15.32.34 (1).jpeg" alt="Spiderman" loading="lazy">
+      <div class="gallery-item-overlay"><div><span class="gallery-item-cat">Superhéroes</span><span class="gallery-item-label">Spiderman</span></div></div>
+    </div>
+    <div class="gallery-item" data-cat="regional" onclick="openLightbox(this)">
+      <img src="WhatsApp Image 2026-05-08 at 15.32.34 (2).jpeg" alt="Traje Mexicano Rosa" loading="lazy">
+      <div class="gallery-item-overlay"><div><span class="gallery-item-cat">Regional</span><span class="gallery-item-label">Traje Mexicano</span></div></div>
+    </div>
+    <div class="gallery-item" data-cat="retro" onclick="openLightbox(this)">
+      <img src="WhatsApp Image 2026-05-08 at 15.32.34 (3).jpeg" alt="Grease Pink" loading="lazy">
+      <div class="gallery-item-overlay"><div><span class="gallery-item-cat">Retro</span><span class="gallery-item-label">Grease / Años 50</span></div></div>
+    </div>
+    <div class="gallery-item" data-cat="retro" onclick="openLightbox(this)">
+      <img src="WhatsApp Image 2026-05-08 at 15.32.34 (4).jpeg" alt="Disco Infantil" loading="lazy">
+      <div class="gallery-item-overlay"><div><span class="gallery-item-cat">Retro</span><span class="gallery-item-label">Disco / Años 70</span></div></div>
+    </div>
+    <div class="gallery-item" data-cat="regional" onclick="openLightbox(this)">
+      <img src="WhatsApp Image 2026-05-08 at 15.32.34.jpeg" alt="Frida Kahlo" loading="lazy">
+      <div class="gallery-item-overlay"><div><span class="gallery-item-cat">Regional</span><span class="gallery-item-label">Frida Kahlo</span></div></div>
+    </div>
+    <div class="gallery-item" data-cat="accesorios" onclick="openLightbox(this)">
+      <img src="WhatsApp Image 2026-05-08 at 15.32.35 (1).jpeg" alt="Sombrero Vaquero Rosa" loading="lazy">
+      <div class="gallery-item-overlay"><div><span class="gallery-item-cat">Accesorios</span><span class="gallery-item-label">Sombrero Holográfico</span></div></div>
+    </div>
+    <div class="gallery-item" data-cat="regional" onclick="openLightbox(this)">
+      <img src="WhatsApp Image 2026-05-08 at 15.32.35 (2).jpeg" alt="Adelita Mexicana" loading="lazy">
+      <div class="gallery-item-overlay"><div><span class="gallery-item-cat">Regional</span><span class="gallery-item-label">Adelita Mexicana</span></div></div>
+    </div>
+    <div class="gallery-item" data-cat="fantasia" onclick="openLightbox(this)">
+      <img src="WhatsApp Image 2026-05-08 at 15.32.35 (3).jpeg" alt="Traje Militar Duo" loading="lazy">
+      <div class="gallery-item-overlay"><div><span class="gallery-item-cat">Fantasía</span><span class="gallery-item-label">Militar Lentejuela</span></div></div>
+    </div>
+    <div class="gallery-item" data-cat="accesorios" onclick="openLightbox(this)">
+      <img src="WhatsApp Image 2026-05-08 at 15.32.35 (4).jpeg" alt="Calentadores Colores" loading="lazy">
+      <div class="gallery-item-overlay"><div><span class="gallery-item-cat">Accesorios</span><span class="gallery-item-label">Calentadores Neón</span></div></div>
+    </div>
+    <div class="gallery-item" data-cat="vaquero" onclick="openLightbox(this)">
+      <img src="WhatsApp Image 2026-05-08 at 15.32.35 (5).jpeg" alt="Vaquero Gamuza" loading="lazy">
+      <div class="gallery-item-overlay"><div><span class="gallery-item-cat">Vaquero</span><span class="gallery-item-label">Vaquero Gamuza</span></div></div>
+    </div>
+    <div class="gallery-item" data-cat="accesorios" onclick="openLightbox(this)">
+      <img src="WhatsApp Image 2026-05-08 at 15.32.35.jpeg" alt="Sombrero Rosa Hot" loading="lazy">
+      <div class="gallery-item-overlay"><div><span class="gallery-item-cat">Accesorios</span><span class="gallery-item-label">Sombrero Cowgirl</span></div></div>
+    </div>
+    <div class="gallery-item" data-cat="fantasia" onclick="openLightbox(this)">
+      <img src="WhatsApp Image 2026-05-08 at 15.32.36 (1).jpeg" alt="Duo Militar Gala" loading="lazy">
+      <div class="gallery-item-overlay"><div><span class="gallery-item-cat">Fantasía</span><span class="gallery-item-label">Duo Gala Militar</span></div></div>
+    </div>
+    <div class="gallery-item" data-cat="fantasia" onclick="openLightbox(this)">
+      <img src="WhatsApp Image 2026-05-08 at 15.32.36 (2).jpeg" alt="Moana Tropical" loading="lazy">
+      <div class="gallery-item-overlay"><div><span class="gallery-item-cat">Fantasía</span><span class="gallery-item-label">Moana</span></div></div>
+    </div>
+    <div class="gallery-item" data-cat="fantasia" onclick="openLightbox(this)">
+      <img src="WhatsApp Image 2026-05-08 at 15.32.36 (3).jpeg" alt="Princesa Tutú" loading="lazy">
+      <div class="gallery-item-overlay"><div><span class="gallery-item-cat">Fantasía</span><span class="gallery-item-label">Princesa Tutú</span></div></div>
+    </div>
+    <div class="gallery-item" data-cat="regional" onclick="openLightbox(this)">
+      <img src="WhatsApp Image 2026-05-08 at 15.32.36 (4).jpeg" alt="Jarocha Mercado" loading="lazy">
+      <div class="gallery-item-overlay"><div><span class="gallery-item-cat">Regional</span><span class="gallery-item-label">Jarocha en Mercado</span></div></div>
+    </div>
+    <div class="gallery-item" data-cat="vaquero" onclick="openLightbox(this)">
+      <img src="WhatsApp Image 2026-05-08 at 15.32.36.jpeg" alt="Vaquera Cowgirl" loading="lazy">
+      <div class="gallery-item-overlay"><div><span class="gallery-item-cat">Vaquero</span><span class="gallery-item-label">Cowgirl Western</span></div></div>
+    </div>
+    <div class="gallery-item" data-cat="vaquero" onclick="openLightbox(this)">
+      <img src="WhatsApp Image 2026-05-08 at 15.32.37 (1).jpeg" alt="Cowgirl Barbie" loading="lazy">
+      <div class="gallery-item-overlay"><div><span class="gallery-item-cat">Vaquero</span><span class="gallery-item-label">Cowgirl Barbie</span></div></div>
+    </div>
+    <div class="gallery-item" data-cat="retro" onclick="openLightbox(this)">
+      <img src="WhatsApp Image 2026-05-08 at 15.32.37.jpeg" alt="Hippie Flower Power" loading="lazy">
+      <div class="gallery-item-overlay"><div><span class="gallery-item-cat">Retro</span><span class="gallery-item-label">Hippie Flower Power</span></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- Lightbox -->
+<div class="lightbox" id="lightbox">
+  <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+  <button class="lightbox-nav lightbox-prev" onclick="navLightbox(-1)">‹</button>
+  <img id="lightboxImg" src="" alt="Disfraz">
+  <button class="lightbox-nav lightbox-next" onclick="navLightbox(1)">›</button>
+</div>
 
 <section id="testimonios">
   <div class="testi-container">
@@ -577,6 +760,63 @@ document.getElementById('whatsForm').addEventListener('submit', function(e) {
   const whatsappUrl = `https://wa.me/522297806893?text=${encodedMessage}`;
   
   window.open(whatsappUrl, '_blank');
+});
+
+// ── Gallery Filters ──
+let currentFilter = 'all';
+document.querySelectorAll('.gallery-filter-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.gallery-filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    currentFilter = btn.dataset.filter;
+    document.querySelectorAll('.gallery-item').forEach(item => {
+      if (currentFilter === 'all' || item.dataset.cat === currentFilter) {
+        item.style.display = '';
+      } else {
+        item.style.display = 'none';
+      }
+    });
+  });
+});
+
+// ── Lightbox ──
+let lightboxIndex = 0;
+let visibleItems = [];
+
+function getVisibleItems() {
+  return Array.from(document.querySelectorAll('.gallery-item')).filter(i => i.style.display !== 'none');
+}
+
+function openLightbox(el) {
+  visibleItems = getVisibleItems();
+  lightboxIndex = visibleItems.indexOf(el);
+  const src = el.querySelector('img').src;
+  document.getElementById('lightboxImg').src = src;
+  document.getElementById('lightbox').classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeLightbox() {
+  document.getElementById('lightbox').classList.remove('active');
+  document.body.style.overflow = '';
+}
+
+function navLightbox(dir) {
+  visibleItems = getVisibleItems();
+  lightboxIndex = (lightboxIndex + dir + visibleItems.length) % visibleItems.length;
+  document.getElementById('lightboxImg').src = visibleItems[lightboxIndex].querySelector('img').src;
+}
+
+document.getElementById('lightbox').addEventListener('click', e => {
+  if (e.target === e.currentTarget) closeLightbox();
+});
+
+document.addEventListener('keydown', e => {
+  const lb = document.getElementById('lightbox');
+  if (!lb.classList.contains('active')) return;
+  if (e.key === 'Escape') closeLightbox();
+  if (e.key === 'ArrowRight') navLightbox(1);
+  if (e.key === 'ArrowLeft') navLightbox(-1);
 });
 </script>
 
